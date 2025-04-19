@@ -14,7 +14,7 @@ Scaler = joblib.load(Scaler_path)
 # Initialize the scaler
 scaler = StandardScaler()
 
-@app.route('/predict', methods=['POST'])
+@app.route('/csv', methods=['POST'])
 def predict():
     try:
         # Check if a file is in the request
