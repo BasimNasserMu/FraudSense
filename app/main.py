@@ -16,23 +16,28 @@ scaler = StandardScaler()
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Parse JSON input
-        data = request.get_json()
+        # Check if a file is in the request
+        if 'file' not in request.files:
+            return jsonify({"error": "No file part in the request"}), 400
 
-        # Convert input data to a DataFrame
-        transaction = pd.DataFrame([data])
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({"error": "No file selected"}), 400
 
-        # Preprocess the input
-        transaction_scaled = scaler.fit_transform(transaction)
+        # Read the uploaded CSV file into a DataFrame
+        df = pd.read_csv(file)
 
-        # Make prediction
-        prediction = model.predict(transaction_scaled)
+        # Preprocess the input data
+        df_scaled = scaler.fit_transform(df)
 
-        # Return the result
-        result = {
-            "transaction": data,
-            "is_fraud": bool(prediction[0])
-        }
+        # Make predictions
+        predictions = model.predict(df_scaled)
+
+        # Add predictions to the DataFrame
+        df['is_fraud'] = predictions
+
+        # Convert the DataFrame to a JSON response
+        result = df.to_dict(orient='records')
         return jsonify(result), 200
 
     except Exception as e:
