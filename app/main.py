@@ -1,24 +1,40 @@
 from flask import Flask, request, jsonify
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
 import joblib
-import numpy as np
-from app.utils.preprocessing import preprocess_input
 
 app = Flask(__name__)
 
-model = joblib.load("app/models/SVMModel.pkl")
+# Load the pre-trained model
+model = joblib.load("models/SVMModel.pkl")
+
+# Initialize the scaler
+scaler = StandardScaler()
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.json
-    transaction = preprocess_input(data)
-    
-    prediction = model.predict(np.array(transaction).reshape(1, -1))
-    
-    result = {
-        'is_fraudulent': bool(prediction[0])
-    }
-    
-    return jsonify(result)
+    try:
+        # Parse JSON input
+        data = request.get_json()
+
+        # Convert input data to a DataFrame
+        transaction = pd.DataFrame([data])
+
+        # Preprocess the input
+        transaction_scaled = scaler.fit_transform(transaction)
+
+        # Make prediction
+        prediction = model.predict(transaction_scaled)
+
+        # Return the result
+        result = {
+            "transaction": data,
+            "is_fraud": bool(prediction[0])
+        }
+        return jsonify(result), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
