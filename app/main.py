@@ -36,12 +36,16 @@ def predict():
 
         # Predict classes
         predictions = svmModel.predict(df[features])
-       
+
         # Add predictions to the DataFrame
         df['Predicted_Class'] = ['Fraud' if p == 1 else 'Not Fraud' for p in predictions]
 
-        return df[['Predicted_Class']]
- 
+        # Convert the DataFrame to a JSON serializable format
+        result = df[['Predicted_Class']].to_dict(orient='records')
+
+        # Return the JSON response
+        return jsonify(result), 200
+
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
