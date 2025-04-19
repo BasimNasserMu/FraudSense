@@ -58,7 +58,7 @@ def predict_single():
             return jsonify({"error": "No JSON data provided"}), 400
 
         # Extract features from the JSON
-        features = [data.get(f'V{i}', 0) for i in range(1, 29)]  # Default to 0 if a feature is missing
+        features = [data.get(f'v{i}', 0) for i in range(1, 29)]  # Default to 0 if a feature is missing
         amount = data.get('Amount', 0)  # Default to 0 if Amount is missing
 
         # Scale the Amount feature
