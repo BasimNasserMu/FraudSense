@@ -27,7 +27,7 @@ fraud-detection-api
 
 1. **Clone the repository:**
    ```
-   git clone <repository-url>
+   git clone https://github.com/BasimNasserMu/FraudSense.git
    cd fraud-detection-api
    ```
 
