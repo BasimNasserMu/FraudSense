@@ -8,8 +8,9 @@ app = Flask(__name__)
 
 # Load the pre-trained model
 model_path = os.path.join(os.path.dirname(__file__), "models/SVMModel.pkl")
-model = joblib.load(model_path)
-
+svmModel = joblib.load(model_path)
+Scaler_path = os.path.join(os.path.dirname(__file__), "models/scaler.pkl")
+Scaler = joblib.load(Scaler_path)
 # Initialize the scaler
 scaler = StandardScaler()
 
@@ -27,19 +28,20 @@ def predict():
         # Read the uploaded CSV file into a DataFrame
         df = pd.read_csv(file)
 
-        # Preprocess the input data
-        df_scaled = scaler.fit_transform(df)
+        # Scale the Amount column
+        df['Amount'] = Scaler.transform(df[['Amount']])
 
-        # Make predictions
-        predictions = model.predict(df_scaled)
+        # Define feature columns
+        features = [f'V{i}' for i in range(1, 29)] + ['Amount']
 
+        # Predict classes
+        predictions = svmModel.predict(df[features])
+       
         # Add predictions to the DataFrame
-        df['is_fraud'] = predictions
+        df['Predicted_Class'] = ['Fraud' if p == 1 else 'Not Fraud' for p in predictions]
 
-        # Convert the DataFrame to a JSON response
-        result = df.to_dict(orient='records')
-        return jsonify(result), 200
-
+        return jsonify(df[['Predicted_Class']]), 200
+ 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
