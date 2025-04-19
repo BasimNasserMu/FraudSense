@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Fraud Detection API
 
 This project is a Flask-based API for detecting fraudulent transactions using a pre-trained SVM model. The API accepts transaction data as input and returns whether the transaction is fraudulent or not.
@@ -80,3 +81,6 @@ To build and run the application using Docker, use the following commands:
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
+=======
+# FraudSense
+>>>>>>> 01771a28f70b4bd48d12635bf88f509af4bc1cb3
