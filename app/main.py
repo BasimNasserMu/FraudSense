@@ -40,7 +40,7 @@ def predict():
         # Add predictions to the DataFrame
         df['Predicted_Class'] = ['Fraud' if p == 1 else 'Not Fraud' for p in predictions]
 
-        return jsonify(df[['Predicted_Class']]), 200
+        return df[['Predicted_Class']]
  
     except Exception as e:
         return jsonify({"error": str(e)}), 400
