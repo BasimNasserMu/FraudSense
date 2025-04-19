@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
@@ -6,7 +7,8 @@ import joblib
 app = Flask(__name__)
 
 # Load the pre-trained model
-model = joblib.load("models/SVMModel.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "models/SVMModel.pkl")
+model = joblib.load(model_path)
 
 # Initialize the scaler
 scaler = StandardScaler()
