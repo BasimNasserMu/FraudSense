@@ -1,11 +1,13 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # استيراد مكتبة CORS
+from flask_cors import CORS  # استيراد مكتبة CORS
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import joblib
 
 app = Flask(__name__)
-
+CORS(app)
 # Load the pre-trained model
 model_path = os.path.join(os.path.dirname(__file__), "models/SVMModel.pkl")
 svmModel = joblib.load(model_path)
