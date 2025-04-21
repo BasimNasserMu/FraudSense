@@ -95,3 +95,9 @@ async function sendJSON() {
     document.getElementById("jsonResult").textContent = "Error: " + error;
   }
 }
+
+// Attach the uploadCSV function to the global window object
+window.uploadCSV = uploadCSV;
+
+// Attach the sendJSON function to the global window object
+window.sendJSON = sendJSON;
