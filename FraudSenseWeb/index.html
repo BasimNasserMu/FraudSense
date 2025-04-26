@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="block-all-mixed-content">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FraudSense Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>FraudSense API Tester</h1>
+    <h1>FraudSense</h1>
 
     <div class="section">
       <h2>Upload CSV</h2>
@@ -24,8 +24,17 @@
       <button onclick="sendJSON()">Send JSON</button>
       <pre id="jsonResult"></pre>
     </div>
+
+    <!-- Add a button to download the log file -->
+    <button id="downloadLogButton">Download Log File</button>
   </div>
 
   <script src="script.js" type="module"></script>
+  <script>
+    // Update the download log button to open the URL in a new tab
+    document.getElementById('downloadLogButton').addEventListener('click', function() {
+        window.open('http://157.230.233.180:5000/download_log', '_blank');
+    });
+  </script>
 </body>
 </html>
