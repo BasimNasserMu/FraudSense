@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
@@ -90,5 +90,16 @@ def predict_single():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+@app.route('/download_log', methods=['GET'])
+def download_log():
+    try:
+        # Check if the log file exists
+        if not os.path.isfile(log_file):
+            return jsonify({"error": "Log file not found"}), 404
+        
+        # Serve the log file
+        return send_file(log_file, as_attachment=True, download_name="log_file.csv")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
