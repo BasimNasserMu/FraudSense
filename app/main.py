@@ -18,12 +18,17 @@ Scaler = joblib.load(Scaler_path)
 log_file = os.path.join(os.path.dirname(__file__), "prediction_logs.csv")
 
 def log_predictions(df_log):
-    # If the log file exists, append to it. Otherwise, create it.
-    if not os.path.isfile(log_file):
-        df_log.to_csv(log_file, index=False)
-    else:
-        df_log.to_csv(log_file, mode='a', header=False, index=False)
-
+    # Check if the log file exists
+    if os.path.isfile(log_file):
+        # Read existing log file
+        existing_logs = pd.read_csv(log_file)
+        
+        # Remove rows that are already logged
+        df_log = df_log[~df_log.isin(existing_logs.to_dict(orient='list')).all(axis=1)]
+    
+    # Only log if there are new rows
+    if not df_log.empty:
+        df_log.to_csv(log_file, mode='a', header=not os.path.isfile(log_file), index=False)
 @app.route('/csv', methods=['POST'])
 def predict():
     try:
