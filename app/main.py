@@ -82,7 +82,7 @@ def predict_single():
         # Predict
         prediction = svmModel.predict([features])[0]
         result_label = "Fraud" if prediction == 1 else "Not Fraud"
-        decision_score = svmModel.decision_function(transaction_df)[0]
+        decision_score = svmModel.decision_function([features])[0]
 
         # 7. Apply sigmoid to approximate probability
         fraud_score = 1 / (1 + np.exp(-decision_score))  # Sigmoid function
