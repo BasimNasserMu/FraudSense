@@ -51,12 +51,13 @@ def predict():
 
         # Predict classes
         predictions = svmModel.predict(df[features])
+        decision_score = svmModel.decision_function(df[features])
 
         # Add predictions to the DataFrame
         df['Predicted_Class'] = predictions
-
+        df['Fraud_Score'] = decision_score
         # Log to file
-        log_predictions(df[features + ['Predicted_Class']])
+        log_predictions(df[features + ['Predicted_Class'] + ['Fraud_Score'])
 
         # Convert the DataFrame to a JSON serializable format
         result = df[['Predicted_Class']].to_dict(orient='records')
