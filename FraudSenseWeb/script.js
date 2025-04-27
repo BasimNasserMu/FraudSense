@@ -122,7 +122,7 @@ async function sendJSON() {
     resultCard.innerHTML = `
       <h3>Prediction Result</h3>
       <p><strong>Fraud Class:</strong> ${data.Predicted_Class}</p>
-      <p><strong>Fraud Score:</strong> ${data.Fraud_Score}</p>
+      <p><strong>Fraud Score:</strong> ${data.Fraud_Score}%</strong></p>
     `;
 
     resultContainer.appendChild(resultCard);
