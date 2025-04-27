@@ -28,7 +28,7 @@ function displayCSVResults(results) {
         const row = document.createElement("tr");
 
         // Check if item.Class exists, otherwise use a fallback or log an error
-        const fraudClass = item.Class !== undefined ? item.Class : "undefined";
+        const fraudClass = item.Predicted_Class !== undefined ? item.Predicted_Class : "undefined";
         const symbol = fraudClass === 0 ? "✅" : fraudClass === 1 ? "⚠️" : "❓";
 
         // Add the row with the appropriate symbol
