@@ -82,15 +82,21 @@ def predict_single():
         # Predict
         prediction = svmModel.predict([features])[0]
         result_label = "Fraud" if prediction == 1 else "Not Fraud"
+        decision_score = svmModel.decision_function(transaction_df)[0]
 
+        # 7. Apply sigmoid to approximate probability
+        fraud_score = 1 / (1 + np.exp(-decision_score))  # Sigmoid function
+        fraud_score = round(fraud_score * 100, 2)  # Convert to percentage
+        
         # Log input + prediction
         log_data = {f'V{i}': data.get(f'v{i}', 0) for i in range(1, 29)}
         log_data['Amount'] = amount_scaled
         log_data['Predicted_Class'] = result_label
+        log_data['Fraud_Score'] = fraud_score
         df_log = pd.DataFrame([log_data])
         log_predictions(df_log)
 
-        return jsonify({"Fraud_Score": result_label}), 200
+        return jsonify({"Predicted_Class": result_label, "Fraud_Score": fraud_score}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
