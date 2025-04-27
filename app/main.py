@@ -52,7 +52,7 @@ def predict():
         predictions = svmModel.predict(df[features])
 
         # Add predictions to the DataFrame
-        df['Predicted_Class'] = ['Fraud' if p == 1 else 'Not Fraud' for p in predictions]
+        df['Predicted_Class'] = predictions
 
         # Log to file
         log_predictions(df[features + ['Predicted_Class']])
