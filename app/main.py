@@ -92,7 +92,7 @@ def predict_single():
         # Log input + prediction
         log_data = {f'V{i}': data.get(f'v{i}', 0) for i in range(1, 29)}
         log_data['Amount'] = amount_scaled
-        log_data['Predicted_Class'] = result_label
+        log_data['Predicted_Class'] = prediction
         log_data['Fraud_Score'] = fraud_score
         df_log = pd.DataFrame([log_data])
         log_predictions(df_log)
