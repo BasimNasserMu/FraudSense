@@ -4,6 +4,7 @@ from flask_cors import CORS
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import joblib
+import numpy as np
 
 app = Flask(__name__)
 CORS(app)
