@@ -20,7 +20,8 @@
 
     <div class="section">
       <h2>Send JSON</h2>
-      <textarea id="jsonInput" placeholder='{"V1": value1, "V2": value2}'></textarea>
+      <textarea id="jsonInput" placeholder='{"V1": value1, "V2": value2, ...} or value1,value2,... or value1 value2'></textarea>
+      <p>Note: Accepts JSON and space, comma, and tab-separated values.</p>
       <button onclick="sendJSON()">Send JSON</button>
       <pre id="jsonResult"></pre>
     </div>
