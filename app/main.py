@@ -99,7 +99,7 @@ def predict_single():
         fraud_score = round(fraud_score * 100, 2)  # Convert to percentage
         
         # Log input + prediction
-        log_data = {f'V{i}': data.get(f'v{i}', 0) for i in range(1, 29)}
+        log_data = {f'V{i}': data.get(f'v{i}', data.get(f'V{i}', 0)) for i in range(1, 29)}
         log_data['Amount'] = amount_scaled
         log_data['Predicted_Class'] = prediction
         log_data['Fraud_Score'] = fraud_score
