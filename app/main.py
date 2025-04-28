@@ -67,7 +67,8 @@ def predict():
         log_predictions(df[log_columns])
 
         # Convert the DataFrame to a JSON serializable format
-        result = df[['Predicted_Class']].to_dict(orient='records')
+        result = df[['Predicted_Class', 'Fraud_Score']].to_dict(orient='records')
+        print(f"Result: {result}")
         return jsonify(result), 200
 
     except Exception as e:
