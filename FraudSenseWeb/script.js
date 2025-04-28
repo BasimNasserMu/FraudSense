@@ -19,30 +19,30 @@ function displayCSVResults(results) {
     const table = document.createElement("table");
     table.className = "result-table";
     const thead = document.createElement("thead");
-    thead.innerHTML = "<tr><th>#</th><th>Is Fraud?</th></tr>";
+    thead.innerHTML = "<tr><th>#</th><th>Is Fraud?</th><th>Fraud Score</th></tr>";
     table.appendChild(thead);
-  
+    
     const tbody = document.createElement("tbody");
-  
+    
     results.forEach((item, index) => {
-        const row = document.createElement("tr");
+      const row = document.createElement("tr");
 
-        // Check if item.Class exists, otherwise use a fallback or log an error
-        const fraudClass = item.Predicted_Class !== undefined ? item.Predicted_Class : "undefined";
-        const symbol = fraudClass === 0 ? "✅" : fraudClass === 1 ? "⚠️" : "❓";
+      // Check if item.Class exists, otherwise use a fallback or log an error
+      const fraudClass = item.Predicted_Class !== undefined ? item.Predicted_Class : "undefined";
+      const fraudScore = item.Fraud_Score !== undefined ? item.Fraud_Score : "N/A";
+      const symbol = fraudClass === 0 ? "✅" : fraudClass === 1 ? "⚠️" : "❓";
 
-        // Add the row with the appropriate symbol
-        row.innerHTML = `<td>${index + 1}</td><td>${symbol} ${fraudClass}</td>`;
-        tbody.appendChild(row);
+      // Add the row with the appropriate symbol and fraud score
+      row.innerHTML = `<td>${index + 1}</td><td>${symbol} ${fraudClass}</td><td>${fraudScore}%</td>`;
+      tbody.appendChild(row);
 
-        // Increment fraud or legit count based on the class
-        if (fraudClass === 1) {
-            fraudCount++;
-        } else if (fraudClass === 0) {
-            legitCount++;
-        }
+      // Increment fraud or legit count based on the class
+      if (fraudClass === 1) {
+        fraudCount++;
+      } else if (fraudClass === 0) {
+        legitCount++;
+      }
     });
-  
     table.appendChild(tbody);
   
     // الإحصائيات
