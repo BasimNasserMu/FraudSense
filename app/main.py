@@ -53,9 +53,14 @@ def predict():
         predictions = svmModel.predict(df[features])
         decision_score = svmModel.decision_function(df[features])
 
+        # 7. Apply sigmoid to approximate probability
+        fraud_score = 1 / (1 + np.exp(-decision_score))  # Sigmoid function
+        fraud_score = round(fraud_score * 100, 2)  # Convert to percentage
+
         # Add predictions to the DataFrame
         df['Predicted_Class'] = predictions
         df['Fraud_Score'] = decision_score
+        
         # Log to file
         log_columns = features + ['Predicted_Class', 'Fraud_Score']
         log_predictions(df[log_columns])
