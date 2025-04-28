@@ -118,7 +118,7 @@ async function sendJSON() {
         throw new Error("Invalid row format. Each row must have 29 values.");
       }
       return headers.reduce((obj, header, index) => {
-        obj[header] = values[index];
+        obj[header] = isNaN(values[index]) ? values[index] : parseFloat(values[index]);
         return obj;
       }, {});
       });
