@@ -59,7 +59,7 @@ def predict():
 
         # Add predictions to the DataFrame
         df['Predicted_Class'] = predictions
-        df['Fraud_Score'] = decision_score
+        df['Fraud_Score'] = fraud_score
         print(f"Fraud Score: {fraud_score}")
 
         # Log to file
