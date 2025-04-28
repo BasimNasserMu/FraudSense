@@ -80,7 +80,7 @@ def predict_single():
         data = request.get_json()
         if not data:
             return jsonify({"error": "No JSON data provided"}), 400
-
+        print(f"Received data: {data}")
         # Extract features
         features = [data.get(f'v{i}', 0) for i in range(1, 29)]
         amount = data.get('Amount', 0)
