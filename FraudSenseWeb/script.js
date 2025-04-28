@@ -95,10 +95,36 @@ async function uploadCSV() {
 async function sendJSON() {
   console.log("sendJSON function called");
   const input = document.getElementById("jsonInput").value;
-  console.log("JSON input value:", input);
+  console.log("Input value:", input);
+
+  let jsonData;
   try {
-    const jsonData = JSON.parse(input);
-    console.log("Parsed JSON data:", jsonData);
+    // Attempt to parse input as JSON
+    jsonData = JSON.parse(input);
+    console.log("Parsed input as JSON:", jsonData);
+  } catch (jsonError) {
+    console.log("Input is not valid JSON, attempting to parse as other formats");
+
+    try {
+      // Attempt to parse input as CSV, space-separated, or tab-separated
+      const rows = input.split(/\r?\n/).filter(row => row.trim() !== "");
+      const headers = rows[0].split(/,|\t| /).map(header => header.trim());
+      jsonData = rows.slice(1).map(row => {
+        const values = row.split(/,|\t| /).map(value => value.trim());
+        return headers.reduce((obj, header, index) => {
+          obj[header] = values[index];
+          return obj;
+        }, {});
+      });
+      console.log("Parsed input as tabular data:", jsonData);
+    } catch (parseError) {
+      console.error("Failed to parse input:", parseError);
+      document.getElementById("jsonResult").textContent = "Error: Invalid input format.";
+      return;
+    }
+  }
+
+  try {
     console.log("Sending POST request to:", `${BASE_URL}/predict_single`);
     const res = await fetch(`${BASE_URL}/predict_single`, {
       method: "POST",
