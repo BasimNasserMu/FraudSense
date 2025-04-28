@@ -122,6 +122,12 @@ async function sendJSON() {
         return obj;
       }, {});
       });
+      
+      // If the input contains only one object, return it without square brackets
+      if (jsonData.length === 1) {
+      jsonData = jsonData[0];
+      }
+      
       console.log("Parsed input as tabular data:", jsonData);
     } catch (parseError) {
       console.error("Failed to parse input:", parseError);
