@@ -55,7 +55,7 @@ def predict():
 
         # 7. Apply sigmoid to approximate probability
         fraud_score = 1 / (1 + np.exp(-decision_score))  # Sigmoid function
-        fraud_score = round(fraud_score * 100, 2)  # Convert to percentage
+        fraud_score = np.round(fraud_score * 100, 2)  # Convert to percentage
 
         # Add predictions to the DataFrame
         df['Predicted_Class'] = predictions
