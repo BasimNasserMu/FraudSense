@@ -108,13 +108,19 @@ async function sendJSON() {
     try {
       // Attempt to parse input as CSV, space-separated, or tab-separated
       const rows = input.split(/\r?\n/).filter(row => row.trim() !== "");
-      const headers = rows[0].split(/,|\t| /).map(header => header.trim());
-      jsonData = rows.slice(1).map(row => {
-        const values = row.split(/,|\t| /).map(value => value.trim());
-        return headers.reduce((obj, header, index) => {
-          obj[header] = values[index];
-          return obj;
-        }, {});
+      
+      // Automatically add headers if not present
+      const headers = Array.from({ length: 28 }, (_, i) => `V${i + 1}`).concat("Amount");
+      
+      jsonData = rows.map(row => {
+      const values = row.split(/,|\t| /).map(value => value.trim());
+      if (values.length !== headers.length) {
+        throw new Error("Invalid row format. Each row must have 29 values.");
+      }
+      return headers.reduce((obj, header, index) => {
+        obj[header] = values[index];
+        return obj;
+      }, {});
       });
       console.log("Parsed input as tabular data:", jsonData);
     } catch (parseError) {
